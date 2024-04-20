@@ -83,9 +83,9 @@
   document.addEventListener('alpine:init', () => {
     Alpine.data('calc', () => ({
       minutes: 15,
-      hourlyRate: 108,
-      gstRate: 5,
-      pstRate: 6,
+      hourlyRate: 0,
+      gstRate: 0,
+      pstRate: 0,
       productCharge: 0,
       serviceCharge: 0,
       subTotal: 0,
@@ -94,9 +94,9 @@
       total: 0,
 
       init() {
-        this.hourlyRate = parseFloat(localStorage.getItem('hourlyRate'))
-        this.gstRate = localStorage.getItem('gstRate')
-        this.pstRate = localStorage.getItem('pstRate')
+        this.hourlyRate = parseFloat(localStorage.getItem('hourlyRate')) || 108
+        this.gstRate = localStorage.getItem('gstRate') || 5
+        this.pstRate = localStorage.getItem('pstRate') || 6
       },
 
       params() {
