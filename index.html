@@ -107,12 +107,12 @@
 
       calc() {
         ratePerMin = this.hourlyRate / 60
-        this.serviceCharge = parseFloat(ratePerMin) * parseFloat(this.minutes)
+        this.serviceCharge = ratePerMin * this.minutes
         this.subTotal = this.serviceCharge + this.productCharge
-        this.gst = roundToTwo(this.subTotal * (parseFloat(this.gstRate) / 100))
-        this.pst = roundToTwo(this.subTotal * (parseFloat(this.pstRate) / 100))
+        this.gst = roundToTwo(this.subTotal * (this.gstRate / 100))
+        this.pst = roundToTwo(this.subTotal * (this.pstRate / 100))
         this.total = roundToTwo(this.subTotal + this.gst + this.pst)
-        console.log(this.total)
+        // console.log(this.total)
       },
     }))
   })
