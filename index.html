@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
+    /> -->
+    <link rel="stylesheet" href="pico.min.css" />
+    <script src="alpine.min.js" defer></script>
+    <title>Sales Totals Calculator</title>
+  </head>
+  <body>
+    <main class="container">
+      <article class="grid">
+        <form x-data="calc">
+          <fieldset class="grid">
+            <label>
+              Minutes Worked:
+              <input x-model.number="minutes" type="number" placeholder="15" />
+            </label>
+            <label>
+              Hourly Rate:
+              <input
+                x-model.number="hourlyRate"
+                type="number"
+                placeholder="108"
+              />
+            </label>
+          </fieldset>
+          <fieldset class="grid">
+            <label>
+              GST Rate:
+              <input x-model.number="gstRate" type="number" placeholder="5" />
+            </label>
+            <label>
+              PST Rate:
+              <input x-model.number="pstRate" type="number" placeholder="6" />
+            </label>
+          </fieldset>
+          <fieldset class="grid">
+            <label>
+              Product Charge:
+              <input x-model.number="productCharge" type="number" />
+            </label>
+            <label>
+              Service Charge:
+              <input x-model.number="serviceCharge" type="number" readonly />
+            </label>
+          </fieldset>
+          <label>
+            SubTotal:
+            <input x-model.number="subTotal" type="number" readonly />
+          </label>
+          <fieldset class="grid">
+            <label>
+              GST:
+              <input x-model.number="gst" type="number" readonly />
+            </label>
+            <label>
+              PST:
+              <input x-model.number="pst" type="number" readonly />
+            </label>
+          </fieldset>
+          <label>
+            Totals:
+            <input x-model.number="total" type="number" readonly />
+          </label>
+          <input @click="calc" type="button" value="Calculate" />
+          <input @click="params" type="button" value="Save Settings" />
+        </form>
+      </article>
+    </main>
+  </body>
+</html>
+
+<script>
+  function roundToTwo(number) {
+    return Math.round(number * 100) / 100
+  }
+
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('calc', () => ({
+      minutes: 15,
+      hourlyRate: 108,
+      gstRate: 5,
+      pstRate: 6,
+      productCharge: 0,
+      serviceCharge: 0,
+      subTotal: 0,
+      gst: 0,
+      pst: 0,
+      total: 0,
+
+      init() {
+        this.hourlyRate = parseFloat(localStorage.getItem('hourlyRate'))
+        this.gstRate = localStorage.getItem('gstRate')
+        this.pstRate = localStorage.getItem('pstRate')
+      },
+
+      params() {
+        localStorage.setItem('hourlyRate', this.hourlyRate)
+        localStorage.setItem('gstRate', this.gstRate)
+        localStorage.setItem('pstRate', this.pstRate)
+      },
+
+      calc() {
+        ratePerMin = this.hourlyRate / 60
+        this.serviceCharge = parseFloat(ratePerMin) * parseFloat(this.minutes)
+        this.subTotal = this.serviceCharge + this.productCharge
+        this.gst = roundToTwo(this.subTotal * (parseFloat(this.gstRate) / 100))
+        this.pst = roundToTwo(this.subTotal * (parseFloat(this.pstRate) / 100))
+        this.total = roundToTwo(this.subTotal + this.gst + this.pst)
+        console.log(this.total)
+      },
+    }))
+  })
+</script>
