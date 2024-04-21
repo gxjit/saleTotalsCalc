@@ -8,7 +8,6 @@ const DEFAULTS = {
 
 const roundToTwo = (n) => Math.round(n * 100) / 100
 const byPercentage = (n) => n / 100
-const getLocalParam = (str) => parseFloat(localStorage.getItem(str)) || null
 const objFilterNull = (obj) =>
   Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null))
 
@@ -30,6 +29,7 @@ function setLocalParams(hourlyRate, gstRate, pstRate) {
 }
 
 function getLocalParams() {
+  const getLocalParam = (str) => parseFloat(localStorage.getItem(str)) || null
   return {
     hourlyRate: getLocalParam('hourlyRate'),
     gstRate: getLocalParam('gstRate'),
