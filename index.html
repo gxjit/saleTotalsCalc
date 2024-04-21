@@ -8,6 +8,7 @@
       href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
     /> -->
     <link rel="stylesheet" href="pico.min.css" />
+    <script src="script.js" defer></script>
     <script src="alpine.min.js" defer></script>
     <title>Sales Totals Calculator</title>
   </head>
@@ -18,7 +19,11 @@
           <fieldset class="grid">
             <label>
               Minutes Worked:
-              <input x-model.number="minutes" type="number" placeholder="15" />
+              <input
+                x-model.number="minsWorked"
+                type="number"
+                placeholder="15"
+              />
             </label>
             <label>
               Hourly Rate:
@@ -68,52 +73,9 @@
             <input x-model.number="total" type="number" readonly />
           </label>
           <input @click="calc" type="button" value="Calculate" />
-          <input @click="params" type="button" value="Save Settings" />
+          <input @click="setParams" type="button" value="Save Settings" />
         </form>
       </article>
     </main>
   </body>
 </html>
-
-<script>
-  function roundToTwo(number) {
-    return Math.round(number * 100) / 100
-  }
-
-  document.addEventListener('alpine:init', () => {
-    Alpine.data('calc', () => ({
-      minutes: 15,
-      hourlyRate: 0,
-      gstRate: 0,
-      pstRate: 0,
-      productCharge: 0,
-      serviceCharge: 0,
-      subTotal: 0,
-      gst: 0,
-      pst: 0,
-      total: 0,
-
-      init() {
-        this.hourlyRate = parseFloat(localStorage.getItem('hourlyRate')) || 108
-        this.gstRate = localStorage.getItem('gstRate') || 5
-        this.pstRate = localStorage.getItem('pstRate') || 6
-      },
-
-      params() {
-        localStorage.setItem('hourlyRate', this.hourlyRate)
-        localStorage.setItem('gstRate', this.gstRate)
-        localStorage.setItem('pstRate', this.pstRate)
-      },
-
-      calc() {
-        ratePerMin = this.hourlyRate / 60
-        this.serviceCharge = ratePerMin * this.minutes
-        this.subTotal = this.serviceCharge + this.productCharge
-        this.gst = roundToTwo(this.subTotal * (this.gstRate / 100))
-        this.pst = roundToTwo(this.subTotal * (this.pstRate / 100))
-        this.total = roundToTwo(this.subTotal + this.gst + this.pst)
-        // console.log(this.total)
-      },
-    }))
-  })
-</script>
