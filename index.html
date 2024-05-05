@@ -3,10 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
-    /> -->
     <link rel="stylesheet" href="pico.min.css" />
     <script src="script.js" defer></script>
     <script src="alpine.min.js" defer></script>
@@ -22,42 +18,55 @@
               <input
                 x-model.number="minsWorked"
                 type="number"
-                placeholder="15"
+                :placeholder="$data.minsWorked"
               />
             </label>
-            <label>
-              Hourly Rate:
-              <input
-                x-model.number="hourlyRate"
-                type="number"
-                placeholder="108"
-              />
-            </label>
-          </fieldset>
-          <fieldset class="grid">
-            <label>
-              GST Rate:
-              <input x-model.number="gstRate" type="number" placeholder="5" />
-            </label>
-            <label>
-              PST Rate:
-              <input x-model.number="pstRate" type="number" placeholder="6" />
-            </label>
-          </fieldset>
-          <fieldset class="grid">
             <label>
               Product Charge:
               <input x-model.number="productCharge" type="number" />
             </label>
+          </fieldset>
+
+          <details open>
+            <summary>Settings</summary>
+            <fieldset class="grid">
+              <label>
+                Hourly Rate:
+                <input
+                  x-model.number="hourlyRate"
+                  type="number"
+                  :placeholder="$data.hourlyRate"
+                />
+              </label>
+              <label>
+                GST Rate:
+                <input
+                  x-model.number="gstRate"
+                  type="number"
+                  :placeholder="$data.gstRate"
+                />
+              </label>
+              <label>
+                PST Rate:
+                <input
+                  x-model.number="pstRate"
+                  type="number"
+                  :placeholder="$data.pstRate"
+                />
+              </label>
+            </fieldset>
+          </details>
+          <fieldset class="grid">
             <label>
               Service Charge:
               <input x-model.number="serviceCharge" type="number" readonly />
             </label>
+            <label>
+              SubTotal:
+              <input x-model.number="subTotal" type="number" readonly />
+            </label>
           </fieldset>
-          <label>
-            SubTotal:
-            <input x-model.number="subTotal" type="number" readonly />
-          </label>
+
           <fieldset class="grid">
             <label>
               GST:
